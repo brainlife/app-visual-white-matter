@@ -31,13 +31,13 @@
         - eccentricity: +/- 1 degree
 2. segment streamlines that connect within each ecc x polar angle parcellation
     - scripts:
-        - tract- segmentation- main.sh
-            - initial- tract- segment.sh
+        - tract-segmentation-main.sh
+            - initial-tract-segment.sh
                 - inputs:
                     - track
                     - both_endpoints
-            - cleanup- assignments.py
-            - final- tract- segment.sh
+            - cleanup-assignments.py
+            - final-tract-segment.sh
                 - inputs:
                     - track
     - 45 total tractograms
