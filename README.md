@@ -3,6 +3,9 @@
 ## polar angle meridians analysis
 ### Connectivity ecc x polar angle workflow:
 1. generate eccentricity x polar angle parcellations
+    -scripts:
+        -polar-angle-by-eccentricity-nifti-generator.sh
+        -combine-parcellation.sh
     -for now, hard-set ecc and polar angle bins (for meridian analysis)
         -polar angle: 0-20, 35-55, 80-100, 125-145, 160-180 (5)
         -eccentricity: 0-1, 1-2, 2-3, 3-4, 4-5, 5-6, 6-7, 7-8, 8-90 (9)
