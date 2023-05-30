@@ -17,7 +17,7 @@
                     - inputparc
                     - dwi
             - combine-parcellation.sh
-                inputs:
+                - inputs:
                     - min_degree_PA
                     - max_degree_PA
                     - min_degree_ECC
