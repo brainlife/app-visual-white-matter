@@ -53,80 +53,80 @@ do
     bname=${j%.tck}
     for i in ${conmat_measures}
     do
-        mkdir -p ${bname} ${bname}/${i}_out ${bname}/${i}_out/csv
+        mkdir -p ./connectomes/${bname} ./connectomes/${bname}/${i}_out ./connectomes/${bname}/${i}_out/csv
     done
 
     #### generate connectomes ####
     # count network
     if [ ! -f ./connectomes/${bname}_count.csv ]; then
         echo "creating connectome for streamline count"
-        tck2connectome ${track} parc.mif ./connectomes/${bname}_count.csv -out_assignments ${bname}_assignments.csv ${weights} ${cmd} -symmetric -zero_diagonal -force -nthreads ${ncores}
+        tck2connectome ${j} parc.mif ./connectomes/${bname}_count.csv -out_assignments ./connectomes/${bname}_assignments.csv ${weights} ${cmd} -symmetric -zero_diagonal -force -nthreads ${ncores}
 
-        cp ./connectomes/${bname}_count.csv ./${bname}/count_out/csv/correlation.csv
-        cp ${label} ./${bname}/count_out/
-        cp ./templates/index.json ./${bname}/count_out/
-        convert_to_csv ./${bname}/count_out
+        cp ./connectomes/${bname}_count.csv ./connectomes/${bname}/count_out/csv/correlation.csv
+        cp ${label} ./connectomes/${bname}/count_out/
+        # cp ./templates/index.json ./connectomes/${bname}/count_out/
+        convert_to_csv ./connectomes/${bname}/count_out
 
-        sed 1,1d ${bname}_assignments.csv > tmp.csv
-        cat tmp.csv > ${bname}_assignments.csv
+        sed 1,1d ./connectomes/${bname}_assignments.csv > tmp.csv
+        cat tmp.csv > ./connectomes/${bname}_assignments.csv
         rm -rf tmp.csv
     fi
 
     # count density network
     if [ ! -f ./connectomes/${bname}_density.csv ]; then
         echo "creating connectome for streamline density"
-        tck2connectome ${track} parc.mif ./connectomes/${bname}_density.csv -scale_invnodevol ${weights} ${cmd} -symmetric -zero_diagonal -force -nthreads ${ncores}
+        tck2connectome ${j} parc.mif ./connectomes/${bname}_density.csv -scale_invnodevol ${weights} ${cmd} -symmetric -zero_diagonal -force -nthreads ${ncores}
 
-        cp ./connectomes/${bname}_density.csv ./${bname}/density_out/csv/correlation.csv
-        cp ${label} ./${bname}/density_out/
-        cp ./templates/index.json ./${bname}/density_out/
-        convert_to_csv ./${bname}/density_out
+        cp ./connectomes/${bname}_density.csv ./connectomes/${bname}/density_out/csv/correlation.csv
+        cp ${label} ./connectomes/${bname}/density_out/
+        # cp ./templates/index.json ./connectomes/${bname}/density_out/
+        convert_to_csv ./connectomes/${bname}/density_out
     fi
 
     # length network
-    if [ ! -f ./connectomes/length.csv ]; then
+    if [ ! -f ./connectomes/${bname}_length.csv ]; then
         echo "creating connectome for streamline length"
         if [[ ${length_vs_invlength} == "true" ]]; then
-            tck2connectome ${track} parc.mif ./connectomes/${bname}_length.csv -scale_length -stat_edge mean ${weights} ${cmd} -symmetric -zero_diagonal -force -nthreads ${ncores}
+            tck2connectome ${j} parc.mif ./connectomes/${bname}_length.csv -scale_length -stat_edge mean ${weights} ${cmd} -symmetric -zero_diagonal -force -nthreads ${ncores}
         else
-            tck2connectome ${track} parc.mif ./connectomes/${bname}_length.csv -scale_invlength -stat_edge mean ${weights} ${cmd} -symmetric -zero_diagonal -force -nthreads ${ncores}
+            tck2connectome ${j} parc.mif ./connectomes/${bname}_length.csv -scale_invlength -stat_edge mean ${weights} ${cmd} -symmetric -zero_diagonal -force -nthreads ${ncores}
         fi
-        cp ./connectomes/${bname}_length.csv ./${bname}/length_out/csv/correlation.csv
-        cp ${label} ./${bname}/length_out/
-        cp ./templates/index.json ./${bname}/length_out/
-        convert_to_csv ./${bname}/length_out
+        cp ./connectomes/${bname}_length.csv ./connectomes/${bname}/length_out/csv/correlation.csv
+        cp ${label} ./connectomes/${bname}/length_out/
+        # cp ./templates/index.json ./connectomes/${bname}/length_out/
+        convert_to_csv ./connectomes/${bname}/length_out
     fi
 
     # density of length network
-    if [ ! -f ./connectomes/denlen.csv ]; then
+    if [ ! -f ./connectomes/${bname}_denlen.csv ]; then
         echo "creating connectome for streamline length"
         if [[ ${length_vs_invlength} == "true" ]]; then
-            tck2connectome ${track} parc.mif ./connectomes/${bname}_denlen.csv -scale_length -stat_edge mean -scale_invnodevol ${weights} ${cmd} -symmetric -zero_diagonal -force -nthreads ${ncores}
+            tck2connectome ${j} parc.mif ./connectomes/${bname}_denlen.csv -scale_length -stat_edge mean -scale_invnodevol ${weights} ${cmd} -symmetric -zero_diagonal -force -nthreads ${ncores}
         else
-            tck2connectome ${track} parc.mif ./connectomes/${bname}_denlen.csv -scale_invlength -stat_edge mean -scale_invnodevol ${weights} ${cmd} -symmetric -zero_diagonal -force -nthreads ${ncores}
+            tck2connectome ${j} parc.mif ./connectomes/${bname}_denlen.csv -scale_invlength -stat_edge mean -scale_invnodevol ${weights} ${cmd} -symmetric -zero_diagonal -force -nthreads ${ncores}
         fi
-        cp ./connectomes/${bname}_denlen.csv ./${bname}/denlen_out/csv/correlation.csv
-        cp ${label} ./${bname}/denlen_out/
-        cp ./templates/index.json ./${bname}/denlen_out/
-        convert_to_csv ./${bname}/denlen_out
+        cp ./connectomes/${bname}_denlen.csv ./connectomes/${bname}/denlen_out/csv/correlation.csv
+        cp ${label} ./connectomes/${bname}/denlen_out/
+        # cp ./templates/index.json ./connectomes/${bname}/denlen_out/
+        convert_to_csv ./connectomes/${bname}/denlen_out
     fi
 done
 
 # generate centers csv
-if [ ! -f ./connectomes/centers.csv ]; then
-    echo "creating csv for centers of nodes"
-    labelstats parc.mif -output centre | sed 's/^[[:space:]]*//' | tr -s '[:blank:]' ',' > ./connectomes/centers.csv
-    sed -e 's/\s\+/,/g' ./connectomes/centers.csv > tmp.csv
-    cat tmp.csv > ./connectomes/centers.csv
-    rm -rf tmp.csv  
-fi
+# if [ ! -f ./connectomes/centers.csv ]; then
+#     echo "creating csv for centers of nodes"
+#     labelstats parc.mif -output centre | sed 's/^[[:space:]]*//' | tr -s '[:blank:]' ',' > ./connectomes/centers.csv
+#     sed -e 's/\s\+/,/g' ./connectomes/centers.csv > tmp.csv
+#     cat tmp.csv > ./connectomes/centers.csv
+#     rm -rf tmp.csv  
+# fi
 
-if [ -f ./connectomes/${bname}_count.csv ] && [ -f ./connectomes/${bname}_length.csv ]; then
-	echo "generation of connectomes is complete!"
-	mv *_assignments.csv ./connectomes/
-else
-	echo "something went wrong"
-fi
+# if [ -f ./connectomes/${bname}_count.csv ] && [ -f ./connectomes/${bname}_length.csv ]; then
+# 	echo "generation of connectomes is complete!"
+# 	mv *_assignments.csv ./connectomes/
+# else
+# 	echo "something went wrong"
+# fi
 
 
 ## configurable inputs

@@ -4,5 +4,6 @@ analysis_pipeline=`jq -r '.analysis' config.json`
 
 # need to build out rest of potential analysis pipelines
 if [[ ${analysis_pipeline} == "polarAngleMeridiansConnectomics" ]]; then
+    [ ! -f ./src/connectomics/config.json ] && cp config.json ./src/connectomics/
     . ./src/connectomics/main
 fi

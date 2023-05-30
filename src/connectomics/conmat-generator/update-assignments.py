@@ -5,10 +5,10 @@ import pandas as pd
 import numpy as np
 import glob
 
-def update_assignments_csv(assignments,outpath,bname):
+def update_assignments_csv(assignment,outpath,bname):
 
     # grab assignments file and rename columns for easier manipulation
-    assignments = pd.read_csv(assignments,header=None)
+    assignments = pd.read_csv(assignment,header=None,sep=" ")
     assignments.rename(columns={0: 'pair1', 1: 'pair2'},inplace=True)
 
     # identify unique node pairings from assignments. will exclude any instances where a streamline had a 0 assignment, meaning it did not connect nodes
@@ -48,7 +48,7 @@ def main():
         os.mkdir(outdir)
 
     for assignment in assignments:
-        bname = assignment.split('.tck')[0]
+        bname = assignment.split('_assignments.csv')[0].split('./connectomes/')[1]
         update_assignments_csv(assignment,outdir,bname)
 
 if __name__ == '__main__':

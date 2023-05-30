@@ -4,8 +4,9 @@
 #visual-white-matter-connectomics-parcellation-generator
 
 # create niftis of eccentricity parcellations before final merge
-echo $FREESURFER_LICENSE > license.txt
-time singularity exec -e -B `pwd`/license.txt:/usr/local/freesurfer/license.txt docker://brainlife/connectome_workbench:1.4.2-freesurfer-update ./src/connectomics/parcellation-generator/polarAngle-by-eccentricity-nifti-generator.sh
+# echo $FREESURFER_LICENSE > license.txt
+cat $FREESURFER_LICENSE > license.txt
+time singularity exec -e -B `pwd`/license.txt:/usr/local/freesurfer/license.txt docker://brainlife/connectome_workbench:1.4.2-freesurfer-update ./src/connectomics/parcellation-generator/polar-angle-by-eccentricity-nifti-generator.sh
 
 # create final parcellation
 if [ ! -f parc/parc.nii.gz ]; then

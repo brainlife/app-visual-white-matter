@@ -15,12 +15,12 @@ if [ ! -f track/track.tck ]; then
 	time singularity exec -e docker://brainlife/mrtrix3:3.0.0 ./src/connectomics/segment-tracts/final-tract-segment.sh
 fi
 
-# final check
-if [ ! -f track/track.tck ]; then
-	echo "segmentation failed. see logs and derivatives"
-	exit 1
-else
-	echo "segmentation complete"
-	mv *.txt *.csv *.nii.gz *.tck ./raw/
-	exit 0
-fi
+# # final check
+# if [ ! -f track/track.tck ]; then
+# 	echo "segmentation failed. see logs and derivatives"
+# 	exit 1
+# else
+# 	echo "segmentation complete"
+# 	mv *.txt *.csv *.nii.gz *.tck ./raw/
+# 	exit 0
+# fi

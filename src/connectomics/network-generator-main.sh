@@ -11,7 +11,7 @@ SINGULARITYENV_PYTHONNOUSERSITE=true
 conmats="count density length denlen"
 
 
-files=(`find ./connectomes -name track_* -type d -maxdepth 1`)
+files=(`find ./connectomes/track* -type d -maxdepth 0`)
 
 for j in ${files[*]}
 do

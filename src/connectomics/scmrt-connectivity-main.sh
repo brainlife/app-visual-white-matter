@@ -18,9 +18,9 @@ time singularity exec -e docker://brainlife/mrtrix3:3.0.3 ./src/connectomics/con
 [ ! -d assignments ] && mkdir -p assignments
 echo "generating assignments labels datatype" && time singularity exec -e docker://brainlife/dipy:1.4.0 ./src/connectomics/conmat-generator/update-assignments.py
 
-if [ ! -f ./connectomes/track_1_density/correlation.csv ]; then
-	echo "something failed. check derivatives"
-else
-	echo "connectome generation completed"
-	mv *.mif *.txt ./raw/
-fi
+# if [ ! -f ./connectomes/track_1_density/correlation.csv ]; then
+# 	echo "something failed. check derivatives"
+# else
+# 	echo "connectome generation completed"
+# 	mv *.mif *.txt ./raw/
+# fi

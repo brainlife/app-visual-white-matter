@@ -23,7 +23,7 @@ for DEG_PA in ${!minDegreePA[@]}; do
 		[ ! -f polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.eccentricity${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}_parc$((ctr+1)).nii.gz ] && fslmaths polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.eccentricity${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.nii.gz -mul $((ctr+1)) polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.eccentricity${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}_parc$((ctr+1)).nii.gz
 		
 		# make combination easier by creating holder variable to pass into fslmaths
-		if [[ $DEG -eq 0 ]]; then
+		if [[ $ctr -eq 0 ]]; then
 			holder="fslmaths polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.eccentricity${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}_parc$((ctr+1)).nii.gz"
 		else
 			holder="$holder -add polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.eccentricity${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}_parc$((ctr+1)).nii.gz"
@@ -65,11 +65,11 @@ done
 [ ! -f parc/key.txt ] & [ -f key.txt ] && mv key.txt ./parc/key.txt
 
 # final check
-if [ ! -f parc/parc.nii.gz ]; then
-	echo "something went wrong. check deriviatives and logs"
-	exit 1
-else
-	echo "parcellation generation complete."
-	mv *.nii.gz *.txt *.gii *.pial ./raw/
-	exit 0
-fi
+# if [ ! -f parc/parc.nii.gz ]; then
+# 	echo "something went wrong. check deriviatives and logs"
+# 	exit 1
+# else
+# 	echo "parcellation generation complete."
+# 	mv *.nii.gz *.txt *.gii *.pial ./raw/
+# 	exit 0
+# fi

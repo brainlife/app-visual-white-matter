@@ -3,16 +3,16 @@
 # connectomics: main file
 
 ## parcellation generator
-. ./src/connectomics/parcellation-generator-main.sh
+# . ./src/connectomics/parcellation-generator-main.sh
 
-## segment tracts
-. ./src/connectomics/tract-segmentation-main.sh
+# ## segment tracts
+# . ./src/connectomics/tract-segmentation-main.sh
 
 ## scmrt connectivity
-. ./src/connectomics/scmrt-connectivity-main.sh
+# . ./src/connectomics/scmrt-connectivity-main.sh
 
-## network generator
+# ## network generator
 . ./src/connectomics/network-generator-main.sh
 
-## network measurements
-. ./src/connectomics/network-measurements-main.sh
+# ## network measurements
+# . ./src/connectomics/network-measurements-main.sh

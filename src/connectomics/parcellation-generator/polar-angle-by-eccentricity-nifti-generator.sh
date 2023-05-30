@@ -21,6 +21,9 @@ hemispheres="lh rh"
 [ ! -d parc ] && mkdir parc
 [ ! -d raw ] && mkdir raw
 
+# copy freesurfer
+[ ! -d output ] && cp -RL ${freesurfer} ./output && freesurfer="./output"
+
 # make degrees loopable
 minDegreePA=($minDegreePA)
 maxDegreePA=($maxDegreePA)
@@ -63,6 +66,7 @@ do
 
 	# convert polar angle surface to gifti
 	[ ! -f ${hemi}.polarAngle.func.gii ] && mris_convert -c ${prfSurfacesDir}/${hemi}.polarAngle ./${hemi}.pial ${hemi}.polarAngle.func.gii
+	[ ! -f ${hemi}.eccentricity.func.gii ] && mris_convert -c ${prfSurfacesDir}/${hemi}.eccentricity ./${hemi}.pial ${hemi}.eccentricity.func.gii
 
 	# create mask of visual occipital lobe
 	[ ! -f ${hemi}.mask.func.gii ] && wb_command -metric-math 'x / x' -var x ${hemi}.polarAngle.func.gii ${hemi}.mask.func.gii
@@ -75,12 +79,12 @@ do
 
 	for DEG_ECC in ${!minDegreeECC[@]}; do
 		# genereate polarAngle bin surfaces and mask eccentricities
-		[ ! -f ./${hemi}.eccentricity${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.eccentricity${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.func.gii ] wb_command -metric-mask ./${hemi}.eccentricity${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.func.gii ./${hemi}.mask.func.gii ./${hemi}.eccentricity${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.func.gii
+		[ ! -f ./${hemi}.eccentricity${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.eccentricity${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.func.gii ]  && mri_binarize --i ./${hemi}.eccentricity.func.gii --min ${minDegreeECC[$DEG_ECC]} --max ${maxDegreeECC[$DEG_ECC]} --o ./${hemi}.eccentricity${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.func.gii && wb_command -metric-mask ./${hemi}.eccentricity${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.func.gii ./${hemi}.mask.func.gii ./${hemi}.eccentricity${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.func.gii
 	done
 
 	for DEG_PA in ${!minDegreePA[@]}; do
 		for DEG_ECC in ${!minDegreeECC[@]}; do
-			[ ! -f ./${hemi}.polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.eccentricity${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.func.gii ] && wb_command -metric-mask ./${hemi}.polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.func.gii ./${hemi}.polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.eccentricity${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.func.gii
+			[ ! -f ./${hemi}.polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.eccentricity${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.func.gii ] && wb_command -metric-mask ./${hemi}.polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.func.gii ./${hemi}.eccentricity${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.func.gii ./${hemi}.polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.eccentricity${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.func.gii
 
 			# create volume-based binned file
 			[ ! -f ./${hemi}.polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.eccentricity${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.nii.gz ] && mri_surf2vol --o ./${hemi}.polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.eccentricity${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.nii.gz --subject ./ --so ./${hemi}.pial ./${hemi}.polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.eccentricity${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.func.gii && mri_vol2vol --mov ./${hemi}.polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.eccentricity${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.nii.gz --targ ${input_nii_gz} --regheader --o ./${hemi}.polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.eccentricity${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.nii.gz --nearest

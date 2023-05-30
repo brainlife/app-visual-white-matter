@@ -1,0 +1,16 @@
+config.json
+*.nii.gz
+*.gii
+*.txt
+*.mif
+*.tck
+tmp.json
+raw/
+assignments/
+connectomes/
+parc/
+track/
+license.txt
+*.pial
+output/
+*.csv
