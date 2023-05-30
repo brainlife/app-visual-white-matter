@@ -17,16 +17,16 @@ ctr=0
 for DEG_PA in ${!minDegreePA[@]}; do
 	for DEG_ECC in ${!minDegreeECC[@]}; do
 		# combine hemispheres into one single volume
-		[ ! -f polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.Ecc${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.nii.gz ] && fslmaths lh.polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.Ecc${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.nii.gz -add rh.polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.Ecc${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.nii.gz -bin polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.Ecc${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.nii.gz
+		[ ! -f polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.eccentricity${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.nii.gz ] && fslmaths lh.polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.eccentricity${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.nii.gz -add rh.polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.eccentricity${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.nii.gz -bin polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.eccentricity${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.nii.gz
 
 		# multiply by parcellation number (i.e. DEG; +1 because 0 index)
-		[ ! -f polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.Ecc${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}_parc$((ctr+1)).nii.gz ] && fslmaths polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.Ecc${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.nii.gz -mul $((ctr+1)) polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.Ecc${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}_parc$((ctr+1)).nii.gz
+		[ ! -f polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.eccentricity${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}_parc$((ctr+1)).nii.gz ] && fslmaths polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.eccentricity${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.nii.gz -mul $((ctr+1)) polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.eccentricity${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}_parc$((ctr+1)).nii.gz
 		
 		# make combination easier by creating holder variable to pass into fslmaths
 		if [[ $DEG -eq 0 ]]; then
-			holder="fslmaths polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.Ecc${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}_parc$((ctr+1)).nii.gz"
+			holder="fslmaths polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.eccentricity${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}_parc$((ctr+1)).nii.gz"
 		else
-			holder="$holder -add polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.Ecc${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}_parc$((ctr+1)).nii.gz"
+			holder="$holder -add polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.eccentricity${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}_parc$((ctr+1)).nii.gz"
 		fi
 		ctr=$((ctr+1))
 	done

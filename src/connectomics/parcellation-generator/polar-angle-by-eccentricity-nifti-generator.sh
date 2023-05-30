@@ -11,13 +11,11 @@ minDegreePA=`jq -r '.min_degree_PA' config.json` # min degree for binning of pol
 maxDegreePA=`jq -r '.max_degree_PA' config.json` # max degree for binning of polar angle
 minDegreeECC=`jq -r '.min_degree_ECC' config.json` # min degree for binning of eccentricity
 maxDegreeECC=`jq -r '.max_degree_ECC' config.json` # max degree for binning of eccentricity
-freesurfer=`jq -r '.freesurfer' config.json`
-inputparc=`jq -r '.inputparc' config.json`
-hemispheres="lh rh"
 dwi=`jq -r '.dwi' config.json`
 fmri=`jq -r '.func' config.json`
 freesurfer=`jq -r '.freesurfer' config.json`
 inputparc=`jq -r '.inputparc' config.json`
+hemispheres="lh rh"
 
 # make directories
 [ ! -d parc ] && mkdir parc
@@ -77,15 +75,15 @@ do
 
 	for DEG_ECC in ${!minDegreeECC[@]}; do
 		# genereate polarAngle bin surfaces and mask eccentricities
-		[ ! -f ./${hemi}.Ecc${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.Ecc${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.func.gii ] wb_command -metric-mask ./${hemi}.Ecc${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.func.gii ./${hemi}.mask.func.gii ./${hemi}.Ecc${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.func.gii
+		[ ! -f ./${hemi}.eccentricity${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.eccentricity${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.func.gii ] wb_command -metric-mask ./${hemi}.eccentricity${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.func.gii ./${hemi}.mask.func.gii ./${hemi}.eccentricity${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.func.gii
 	done
 
 	for DEG_PA in ${!minDegreePA[@]}; do
 		for DEG_ECC in ${!minDegreeECC[@]}; do
-			[ ! -f ./${hemi}.polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.Ecc${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.func.gii ] && wb_command -metric-mask ./${hemi}.polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.func.gii ./${hemi}.polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.Ecc${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.func.gii
+			[ ! -f ./${hemi}.polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.eccentricity${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.func.gii ] && wb_command -metric-mask ./${hemi}.polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.func.gii ./${hemi}.polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.eccentricity${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.func.gii
 
 			# create volume-based binned file
-			[ ! -f ./${hemi}.polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.Ecc${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.nii.gz ] && mri_surf2vol --o ./${hemi}.polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.Ecc${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.nii.gz --subject ./ --so ./${hemi}.pial ./${hemi}.polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.Ecc${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.func.gii && mri_vol2vol --mov ./${hemi}.polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.Ecc${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.nii.gz --targ ${input_nii_gz} --regheader --o ./${hemi}.polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.Ecc${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.nii.gz --nearest
+			[ ! -f ./${hemi}.polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.eccentricity${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.nii.gz ] && mri_surf2vol --o ./${hemi}.polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.eccentricity${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.nii.gz --subject ./ --so ./${hemi}.pial ./${hemi}.polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.eccentricity${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.func.gii && mri_vol2vol --mov ./${hemi}.polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.eccentricity${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.nii.gz --targ ${input_nii_gz} --regheader --o ./${hemi}.polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.eccentricity${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}.nii.gz --nearest
 		done
 	done
 done

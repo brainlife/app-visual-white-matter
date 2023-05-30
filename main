@@ -1,0 +1,8 @@
+#!/bin/bash
+
+analysis_pipeline=`jq -r '.analysis' config.json`
+
+# need to build out rest of potential analysis pipelines
+if [[ ${analysis_pipeline} == "polarAngleMeridiansConnectomics" ]]; then
+    . ./src/connectomics/main
+fi
