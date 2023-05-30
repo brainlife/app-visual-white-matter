@@ -136,9 +136,9 @@
 ```
 
 #### counts of output datatypes
-parcellations: 45 (1 giant parcellation)
-track/tck: 45 (1 giant tractogram)
-conmats: 275 (45 tractograms x 6 similarity measures)
-networks: 550 (275 x 2; one for network, one for measurements)
+- parcellations: 45 (1 giant parcellation)
+- track/tck: 45 (1 giant tractogram)
+- conmats: 275 (45 tractograms x 6 similarity measures)
+- networks: 550 (275 x 2; one for network, one for measurements)
 
 
