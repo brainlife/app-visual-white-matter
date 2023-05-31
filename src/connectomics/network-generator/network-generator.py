@@ -61,8 +61,10 @@ for entry in indexData:
 	del networkPropertiesDictionary["filename"]
 
 	adjacencyMatrix = loadCSVMatrix(os.path.join(CSVDirectory, entryFilename))
-	matrices.append(adjacencyMatrix)
+	if np.max(adjacencyMatrix) == 0:
+		adjacencyMatrix[adjacencyMatrix == 0] = np.nan
 
+	matrices.append(adjacencyMatrix)
 
 	if(len(labelData)>len(adjacencyMatrix)):
 		for key,value in labelData[0].items():

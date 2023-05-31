@@ -14,3 +14,7 @@ license.txt
 *.pial
 output/
 *.csv
+networks/
+tracts/
+product.json
+labels/

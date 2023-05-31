@@ -3,7 +3,7 @@
 #nodes=1:ppn=1,vmem=6gb,walltime=01:00:00
 #visual-white-matter-connectomics-network-measurements
 
-files=(`find ./networks -name track_* -type d -maxdepth 1`)
+files=(`find ./networks/track* -maxdepth 0 -type d`)
 conmats="count density length denlen"
 richClubPercentage=`jq -r '.richClubPercentage' config.json`
 
@@ -13,7 +13,7 @@ do
     bname=${j##./networks/}
     for i in ${conmats}
     do
-        fstem=./networks/${bname}/${i}_out/
+        fstem=./networks/${bname}/${i}/
         
         # network
         network=${fstem}/network.json.gz
@@ -25,8 +25,12 @@ do
     "richClubPercentage": "${richClubPercentage}"
 }
 EOF
-        [ ! -f ./networks/${bname}/${i}_measurements/network.json.gz ] && singularity exec -e docker://filsilva/cxnetwork:0.2.0 ./src/connectomics/network-measurements/network-measurements.py tmp.json ./networks/${bname}/${i}_measurements
+        echo $bname $i
+        [ ! -f ./networks/${bname}/${i}/measurements/network.json.gz ] && singularity exec -e docker://filsilva/cxnetwork:0.2.0 ./src/connectomics/network-measurements/network-measurements.py tmp.json ./networks/${bname}/${i}/measurements
 
         rm -rf tmp.json
     done
 done
+
+# clean up file names
+singularity exec -e docker://filsilva/cxnetwork:0.2.0 ./src/connectomics/network-measurements/clean-up-file-names.py

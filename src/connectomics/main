@@ -9,10 +9,10 @@
 # . ./src/connectomics/tract-segmentation-main.sh
 
 ## scmrt connectivity
-# . ./src/connectomics/scmrt-connectivity-main.sh
+# . ./src/connectomics/scmrt-connectivity-main.sh 
 
-# ## network generator
-. ./src/connectomics/network-generator-main.sh
+# # ## network generator
+# . ./src/connectomics/network-generator-main.sh
 
 # ## network measurements
-# . ./src/connectomics/network-measurements-main.sh
+. ./src/connectomics/network-measurements-main.sh

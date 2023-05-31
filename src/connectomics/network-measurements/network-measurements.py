@@ -312,32 +312,37 @@ with open(configFilename, "r") as fd:
 richClubPercentage = 90
 
 if("richClubPercentage" in config):
-	richClubPercentage = config["richClubPercentage"];
+	richClubPercentage = int(config["richClubPercentage"]);
 
-networks = jgf.igraph.load(config["network"], compressed=True)
 
-outputNetworks = []
+aM = jgf.conmat.load(config['network'],compressed=True)
+if not np.isnan(aM[0][0][0]):
+	networks = jgf.igraph.load(config["network"], compressed=True)
 
-for network in tqdm(networks):
-	
-	weighted = "weight" in network.edge_attributes()
-	hasCommunities = "Community" in network.vertex_attributes()
-	
-	for measurement,measurementFunction in measurements.items():
-		nodePropData,networkPropData = measurementFunction(network)
+	outputNetworks = []
+
+	for network in tqdm(networks):
 		
-
-		if(nodePropData is not None):
-			network.vs[measurement] = nodePropData
-
-		if(networkPropData is not None):
-			if(nodePropData is not None): #Average measurement
-				network["Avg. "+measurement] = networkPropData
-			else:
-				network[measurement] = networkPropData
+		weighted = "weight" in network.edge_attributes()
+		hasCommunities = "Community" in network.vertex_attributes()
 		
-	outputNetworks.append(network)
+		for measurement,measurementFunction in measurements.items():
+			nodePropData,networkPropData = measurementFunction(network)
+			
 
-jgf.igraph.save(outputNetworks, outputFile, compressed=True)
+			if(nodePropData is not None):
+				network.vs[measurement] = nodePropData
+
+			if(networkPropData is not None):
+				if(nodePropData is not None): #Average measurement
+					network["Avg. "+measurement] = networkPropData
+				else:
+					network[measurement] = networkPropData
+			
+		outputNetworks.append(network)
+
+	jgf.igraph.save(outputNetworks, outputFile, compressed=True)
+else:
+	print('empty matrix')
 
 exitApp()

@@ -64,7 +64,7 @@ do
 
         cp ./connectomes/${bname}_count.csv ./connectomes/${bname}/count_out/csv/correlation.csv
         cp ${label} ./connectomes/${bname}/count_out/
-        # cp ./templates/index.json ./connectomes/${bname}/count_out/
+        cp ./src/connectomics/conmat-generator/index.json ./connectomes/${bname}/count_out/
         convert_to_csv ./connectomes/${bname}/count_out
 
         sed 1,1d ./connectomes/${bname}_assignments.csv > tmp.csv
@@ -79,7 +79,7 @@ do
 
         cp ./connectomes/${bname}_density.csv ./connectomes/${bname}/density_out/csv/correlation.csv
         cp ${label} ./connectomes/${bname}/density_out/
-        # cp ./templates/index.json ./connectomes/${bname}/density_out/
+        cp ./src/connectomics/conmat-generator/index.json ./connectomes/${bname}/density_out/
         convert_to_csv ./connectomes/${bname}/density_out
     fi
 
@@ -93,7 +93,7 @@ do
         fi
         cp ./connectomes/${bname}_length.csv ./connectomes/${bname}/length_out/csv/correlation.csv
         cp ${label} ./connectomes/${bname}/length_out/
-        # cp ./templates/index.json ./connectomes/${bname}/length_out/
+        cp ./src/connectomics/conmat-generator/index.json ./connectomes/${bname}/length_out/
         convert_to_csv ./connectomes/${bname}/length_out
     fi
 
@@ -107,7 +107,7 @@ do
         fi
         cp ./connectomes/${bname}_denlen.csv ./connectomes/${bname}/denlen_out/csv/correlation.csv
         cp ${label} ./connectomes/${bname}/denlen_out/
-        # cp ./templates/index.json ./connectomes/${bname}/denlen_out/
+        cp ./src/connectomics/conmat-generator/index.json ./connectomes/${bname}/denlen_out/
         convert_to_csv ./connectomes/${bname}/denlen_out
     fi
 done

@@ -11,7 +11,7 @@ SINGULARITYENV_PYTHONNOUSERSITE=true
 conmats="count density length denlen"
 
 
-files=(`find ./connectomes/track* -type d -maxdepth 0`)
+files=(`find ./connectomes/track* -maxdepth 0 -type d`)
 
 for j in ${files[*]}
 do
@@ -25,10 +25,10 @@ do
         label=${fstem}/label.json
 
         # grab correlation
-        correlation=${fstem}/correlation.csv
+        correlation=${fstem}/csv/
 
         # grab index
-        index=${fstem}/index.csv
+        index=${fstem}/index.json
 
         # create temporary config.json
         cat << EOF > tmp.json
@@ -38,6 +38,7 @@ do
     "csv": "${correlation}"
 }
 EOF
+        echo $bname $i
         [ ! -f ./networks/${bname}/${i}/network.json.gz ] && singularity exec -e docker://filsilva/cxnetwork:0.2.0 ./src/connectomics/network-generator/network-generator.py tmp.json ./networks/${bname}/${i}
 
         rm -rf tmp.json
