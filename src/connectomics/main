@@ -19,4 +19,4 @@
 
 ## clean up
 [ ! -d tracts ] && mkdir tracts && mv *.tck ./tracts/
-mv *.nii.gz *.mif *.func.gii *.txt *.pial ./raw/
+# mv *.nii.gz *.mif *.func.gii *.txt *.pial ./raw/
