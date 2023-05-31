@@ -74,7 +74,11 @@
                 - inputs:
                     - richClubPercentage
             - clean-up-file-names.py
-6. create wmc datatype for all generated connectome tracts
+6. create cortexmap datatype
+    - scripts:
+        - cortexmap-generator-main.sh
+            - cortex-mapping-pipeline.sh
+7. create wmc datatype for all generated connectome tracts
     - scripts:
         -wmc-generator-main.sh
             - generate-wmc.py
@@ -112,6 +116,8 @@
 5. network-measurements-main.sh
     - inputs in config for this section:
         - richClubPercentage
+6. cortexmap-generator-main.sh
+7. wmc-generator-main.sh
 
 # config.json sample
 ```
