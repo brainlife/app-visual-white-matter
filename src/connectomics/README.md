@@ -80,7 +80,7 @@
             - cortex-mapping-pipeline.sh
 7. create wmc datatype for all generated connectome tracts
     - scripts:
-        -wmc-generator-main.sh
+        - wmc-generator-main.sh
             - generate-wmc.py
             - parcellation2vtk.py
 
