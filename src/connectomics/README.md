@@ -74,6 +74,11 @@
                 - inputs:
                     - richClubPercentage
             - clean-up-file-names.py
+6. create wmc datatype for all generated connectome tracts
+    - scripts:
+        -wmc-generator-main.sh
+            - generate-wmc.py
+            - parcellation2vtk.py
 
 #### MAIN main order of scripts
 1. parcellation-generator-main.sh
@@ -135,10 +140,13 @@
 }
 ```
 
-#### counts of output datatypes
-- parcellations: 45 (1 giant parcellation)
-- track/tck: 45 (1 giant tractogram)
-- conmats: 275 (45 tractograms x 6 similarity measures)
-- networks: 550 (275 x 2; one for network, one for measurements)
-
+#### output datatypes
+- neuro/conmats
+- generic/networks
+- neuro/parcellation/volume
+- neuro/cortexmap
+- neuro/track/tck
+- neuro/tcks
+- raw
+- neuro/wmc
 
