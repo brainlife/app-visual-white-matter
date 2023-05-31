@@ -5,18 +5,18 @@
 ## parcellation generator
 . ./src/connectomics/parcellation-generator-main.sh
 
-# ## segment tracts
+## segment tracts
 . ./src/connectomics/tract-segmentation-main.sh
 
 ## scmrt connectivity
 . ./src/connectomics/scmrt-connectivity-main.sh 
 
-# # ## network generator
+## network generator
 . ./src/connectomics/network-generator-main.sh
 
-# ## network measurements
+## network measurements
 . ./src/connectomics/network-measurements-main.sh
 
-
+## clean up
 [ ! -d tracts ] && mkdir tracts && mv *.tck ./tracts/
 mv *.nii.gz *.mif *.func.gii *.txt *.pial ./raw/
