@@ -73,7 +73,7 @@
             - network-measurements.py
                 - inputs:
                     - richClubPercentage
-            - update-directory-names.py
+            - clean-up-file-names.py
 
 #### MAIN main order of scripts
 1. parcellation-generator-main.sh
