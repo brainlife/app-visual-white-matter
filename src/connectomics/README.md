@@ -83,6 +83,10 @@
         - wmc-generator-main.sh
             - generate-wmc.py
             - parcellation2vtk.py
+8. generate dataframes of network statistics
+    - scripts:
+        -netstats-generator-main.sh
+            -generate-netstats.py
 
 #### MAIN main order of scripts
 1. parcellation-generator-main.sh
@@ -118,6 +122,7 @@
         - richClubPercentage
 6. cortexmap-generator-main.sh
 7. wmc-generator-main.sh
+8. netstats-generator-main.sh
 
 # config.json sample
 ```
@@ -142,7 +147,14 @@
     "labels":   "",
     "weights":   "",
     "richClubPercentage":   90,
-    "analysis": "polarAngleMeridiansConnectomics"
+    "analysis": "polarAngleMeridiansConnectomics",
+    "_inputs": [
+        {
+            "meta": {
+                "subject": "CC520287"
+            }
+        }
+    ]
 }
 ```
 
@@ -155,4 +167,5 @@
 - neuro/tcks
 - raw
 - neuro/wmc
+- neuro/net-stats
 

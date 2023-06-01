@@ -23,6 +23,9 @@
 ## create wmc datatype
 . ./src/connectomics/wmc-generator-main.sh
 
+## create network statistics csvs
+. ./src/connectomics/netstats-generator-main.sh
+
 ## clean up
 [ ! -d tracts ] && mkdir tracts && mv *.tck ./tracts/
 mv *.nii.gz *.mif c_ras.mat *.txt *.pial ./raw/
