@@ -28,7 +28,8 @@ for DEG_PA in ${!minDegreePA[@]}; do
 		else
 			holder="$holder -add polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.eccentricity${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}_parc$((ctr+1)).nii.gz"
 		fi
-		ctr=$((ctr+1))
+		holder2="$holder2 polarAngle${minDegreePA[$DEG_PA]}to${maxDegreePA[$DEG_PA]}.eccentricity${minDegreeECC[$DEG_ECC]}to${maxDegreeECC[$DEG_ECC]}_parc$((ctr+1)).nii.gz"
+		ctr=$((ctr+1)) 
 	done
 done
 
@@ -38,10 +39,11 @@ if [ ! -f parc/parc.nii.gz ]; then
 fi
 
 # create label and key files
-FILES=(`echo "*_parc*.nii.gz"`)
-for i in "${!FILES[@]}"
+# FILES=(`echo "*_parc*.nii.gz"`)
+holder2=($holder2)
+for i in "${!holder2[@]}"
 do
-	name=`echo ${FILES[$i]} | cut -d'_' -f1`
+	name=`echo ${holder2[$i]} | cut -d'_' -f1`
 	oldval=$((i+1))
 
 	newval=$oldval
