@@ -72,7 +72,7 @@ maxDegreeECC=($maxDegreeECC)
 # loop through all bins and create single volume, then multiply binary file by number of degree bins so we can create one large parcellation
 ctr=0
 for DEG_PA in ${!minDegreePA[@]}; do
-	if [[ $(($maxDegreePA[$DEG_PA]-$paAngle)) -eq 90 ]] && [[ $(($minDegreePA[$DEG_PA]+$paAngle)) -eq 90 ]]; then
+	if [[ $((${maxDegreePA[$DEG_PA]}-$paAngle)) -eq 90 ]] && [[ $((${minDegreePA[$DEG_PA]}+$paAngle)) -eq 90 ]]; then
 		angle_hem="hm"
 	else
 		angle_hem="vm_or_diagonal"
