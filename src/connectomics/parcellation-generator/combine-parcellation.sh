@@ -58,7 +58,7 @@ do
     fi
 done
 
-if [[ $include_periph == "true" ]]; then
+if [[ $include_periph == true ]]; then
     maxDegreeECC=$maxDegreeECC" 90"
     minDegreeECC=$minDegreeECC" 8"
 fi
