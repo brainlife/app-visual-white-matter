@@ -7,10 +7,14 @@
 # parse inputs
 prfSurfacesDir=`jq -r '.prfSurfacesDir' config.json`
 prfVerticesDir=`jq -r '.prfVerticesDir' config.json`
-minDegreePA=`jq -r '.min_degree_PA' config.json` # min degree for binning of polar angle
-maxDegreePA=`jq -r '.max_degree_PA' config.json` # max degree for binning of polar angle
-minDegreeECC=`jq -r '.min_degree_ECC' config.json` # min degree for binning of eccentricity
-maxDegreeECC=`jq -r '.max_degree_ECC' config.json` # max degree for binning of eccentricity
+paAngle=`jq -r '.paAngle' config.json`
+eccAngle=`jq -r '.eccAngle' config.json`
+paMeridians=`jq -r '.paMeridians' config.json`
+include_periph=`jq -r '.include_periph' config.json`
+# minDegreePA=`jq -r '.min_degree_PA' config.json` # min degree for binning of polar angle
+# maxDegreePA=`jq -r '.max_degree_PA' config.json` # max degree for binning of polar angle
+# minDegreeECC=`jq -r '.min_degree_ECC' config.json` # min degree for binning of eccentricity
+# maxDegreeECC=`jq -r '.max_degree_ECC' config.json` # max degree for binning of eccentricity
 dwi=`jq -r '.dwi' config.json`
 fmri=`jq -r '.func' config.json`
 freesurfer=`jq -r '.freesurfer' config.json`
@@ -24,7 +28,60 @@ hemispheres="lh rh"
 # copy freesurfer
 [ ! -d output ] && cp -RL ${freesurfer} ./output && freesurfer="./output"
 
-# make degrees loopable
+# build wedges
+# set up variables
+paMeridians=($paMeridians)
+minDegreePA=""
+maxDegreePA=""
+minDegreeECC=""
+maxDegreeECC=""
+
+# build polar angle wedges
+for (( i=0; i<${#paMeridians[*]}; i++ ))
+do
+	if [[ ${paMeridians[$i]} == "0" ]]; then
+		minDegreePA=$minDegreePA" "${paMeridians[$i]}
+	else
+		minPA=$((${paMeridians[$i]} - $paAngle))
+		echo $minPA
+
+		if [[ ! $minPA -lt 0 ]]; then
+			minDegreePA=$minDegreePA" "$minPA
+		else
+			minDegreePA=$minDegreePA" 0"
+		fi
+	fi
+
+	if [[ ${paMeridians[$i]} == "180" ]]; then
+		maxDegreePA=$maxDegreePA" "${paMeridians[$i]}
+	else
+		maxDegreePA=$maxDegreePA" "$((${paMeridians[$i]} + $paAngle))
+	fi
+done
+
+# build eccentricity wedges
+for (( i=0; i<=8; i+=$eccAngle ))
+do
+    maxECC=$(($i + $eccAngle))
+    if [[ ! $i -eq 8 ]]; then
+        if [[ $i -lt 8 ]] && [[ ! $maxECC -gt 8 ]]; then
+            maxDegreeECC=$maxDegreeECC" "$maxECC
+        else
+            maxDegreeECC=$maxDegreeECC" 8"
+        fi
+    fi
+
+    if [[ ! $i -eq 8 ]]; then
+        minDegreeECC=$minDegreeECC" "$i
+    fi
+done
+
+if [[ $include_periph == "true" ]]; then
+    maxDegreeECC=$maxDegreeECC" 90"
+    minDegreeECC=$minDegreeECC" 8"
+fi
+
+# make loopable
 minDegreePA=($minDegreePA)
 maxDegreePA=($maxDegreePA)
 minDegreeECC=($minDegreeECC)
