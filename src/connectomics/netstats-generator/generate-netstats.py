@@ -60,14 +60,17 @@ def main():
 
     conmats['parcellation'] = conmats.apply(lambda x: x['tags'][0], axis=1).tolist()
     conmats['measure'] = conmats.apply(lambda x: x['tags'][1], axis=1).tolist()
+    conmats = conmats.drop(columns=['tags','datatype_tags'])
 
     global_measures = global_measures.reset_index(drop=True)
     global_measures['parcellation'] = global_measures.apply(lambda x: x['tags'][0], axis=1).tolist()
-    global_measures['measure'] = global_measures.apply(lambda x: x['tags'][1], axis=1).tolist() 
+    global_measures['measure'] = global_measures.apply(lambda x: x['tags'][1], axis=1).tolist()
+    global_measures = global_measures.drop(columns=['tags','datatype_tags'])
 
     local_measures = local_measures.reset_index(drop=True)
     local_measures['parcellation'] = local_measures.apply(lambda x: x['tags'][0], axis=1).tolist()
     local_measures['measure'] = local_measures.apply(lambda x: x['tags'][1], axis=1).tolist()
+    local_measures = local_measures.drop(columns=['tags','datatype_tags'])
 
     conmats.to_csv('./net-stats/net-stats/conmats.csv')
     global_measures.to_csv('./net-stats/net-stats/global_measures.csv',index=False)
