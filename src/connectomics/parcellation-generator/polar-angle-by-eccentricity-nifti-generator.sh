@@ -86,7 +86,7 @@ minDegreePA=($minDegreePA)
 maxDegreePA=($maxDegreePA)
 minDegreeECC=($minDegreeECC)
 maxDegreeECC=($maxDegreeECC)
-echo $maxDegreeECC
+echo ${maxDegreeECC[*]}
 
 # set up some stuff to move inputaparc to space
 if [ -f ${dwi} ]; then
