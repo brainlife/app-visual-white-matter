@@ -3,7 +3,7 @@
 # top variables
 track=`jq -r '.track' config.json`
 
-connectome2tck ${track} assignments_both_endpoints.txt track -file per_node
+connectome2tck ${track} assignments_endpoints.txt track -file per_node
 
 # create new tractogram
 if [ ! -f track/track.tck ]; then
