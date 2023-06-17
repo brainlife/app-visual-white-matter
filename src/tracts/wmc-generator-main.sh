@@ -7,12 +7,12 @@ mkdir -p wmc wmc/tracts wmc/surfaces
 
 # convert to wmc
 if [ ! -f ./wmc/classification.mat ]; then
-	time singularity exec -e docker://brainlife/pyafq:0.4.1-pandas-update ./src/connectomics/wmc-generator/generate-wmc.py
+	time singularity exec -e docker://brainlife/pyafq:0.4.1-pandas-update ./src/tracts/wmc-generator/generate-wmc.py
 fi
 
 # create surfaces for visualizer
 if [ ! -f ./wmc/surfaces/index.json ]; then
-	time singularity exec -e docker://brainlife/pythonvtk:1.1 ./src/connectomics/wmc-generator/parcellation2vtk.py
+	time singularity exec -e docker://brainlife/pythonvtk:1.1 ./src/tracts/wmc-generator/parcellation2vtk.py
 fi
 
 # cleanup file names
