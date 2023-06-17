@@ -1,6 +1,6 @@
 #!/bin/bash
 
-endpoints_assignments=`jq -r '.endpoints_assignments' config.json`
+endpoints_assignments=`jq -r '.endpoints_assignment' config.json`
 
 # connectomics: main file
 
