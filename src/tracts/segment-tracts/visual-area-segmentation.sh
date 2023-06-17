@@ -78,7 +78,7 @@ do
     # count network
     if [ ! -f ./assignments/${bname}_assignments.csv ]; then
         echo "creating connectome for streamline count"
-        tck2connectome ${j} parc.mif ./connectomes/${bname}_count.csv -out_assignments ./assignments/${bname}_assignments.csv ${weights} ${cmd} -symmetric -zero_diagonal -force -nthreads ${ncores}
+        tck2connectome ${j} parc.mif ./assignments/${bname}_count.csv -out_assignments ./assignments/${bname}_assignments.csv ${weights} ${cmd} -symmetric -zero_diagonal -force -nthreads ${ncores}
 
         # cp ./connectomes/${bname}_count.csv ./connectomes/${bname}/count_out/csv/correlation.csv
         # cp ${label} ./connectomes/${bname}/count_out/
