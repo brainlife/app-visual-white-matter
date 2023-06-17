@@ -181,7 +181,7 @@ def main():
     names_df['parcellation'] = names_df['parcellation'].map(polarEcc_dict)
 
     # generate a name for the final wmc
-    names_df['tract_name'] = names_df.apply(lambda x: x['parcellation'].replace('.','-')+'_'+x['parcels'],axis=1)
+    names_df['tract_name'] = names_df.apply(lambda x: x['parcellation'].replace('.','-')+'_'+str(x['parcels']),axis=1)
 
     # identify unique names and build wmc dictionary so we can add index values
     unique_parcels = names_df['tract_name'].unique().tolist()
