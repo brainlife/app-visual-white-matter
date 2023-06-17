@@ -1,5 +1,7 @@
 #!/bin/bash
 
+endpoints_assignments=`jq -r '.endpoints_assignments' config.json`
+
 # connectomics: main file
 
 ## parcellation generator
@@ -8,25 +10,36 @@
 ## segment tracts
 . ./src/connectomics/tract-segmentation-main.sh
 
-## scmrt connectivity
-. ./src/connectomics/scmrt-connectivity-main.sh 
-
-## network generator
-. ./src/connectomics/network-generator-main.sh
-
-## network measurements
-. ./src/connectomics/network-measurements-main.sh
-
 ## create cortexmap datatype
 . ./src/connectomics/cortexmap-generator-main.sh
 
-## create wmc datatype
-. ./src/connectomics/wmc-generator-main.sh
+if [[ ${endpoints_assignments} == 'both_endpoints' ]]; then
+    
+    ## scmrt connectivity
+    . ./src/connectomics/scmrt-connectivity-main.sh 
 
-## create network statistics csvs
-. ./src/connectomics/netstats-generator-main.sh
+    ## network generator
+    . ./src/connectomics/network-generator-main.sh
 
-## clean up
-[ ! -d tracts ] && mkdir tracts tracts/tcks && mv *.tck ./tracts/tcks/
-mv *.nii.gz *.mif c_ras.mat *.txt *.pial ./metric ./raw/
+    ## network measurements
+    . ./src/connectomics/network-measurements-main.sh
+
+    ## create wmc datatype
+    . ./src/connectomics/wmc-generator-main.sh
+
+    ## create network statistics csvs
+    . ./src/connectomics/netstats-generator-main.sh
+
+    ## clean up
+    mv *.nii.gz *.mif c_ras.mat *.txt *.pial ./metric ./raw/
+elif [[ ${endpoints_assignments} == 'single_endpoints' ]]; then
+
+    # identify termination points in visual areas
+    . ./src/tracts/visual-area-segmentation-main.sh
+
+    # create wmc datatype
+    . ./src/tracts/wmc-generator-main.sh
+fi
+
 mv *.func.gii ./cortexmap/cortexmap/func/
+[ ! -d tracts ] && mkdir tracts tracts/tcks && mv *.tck ./tracts/tcks/

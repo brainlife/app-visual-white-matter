@@ -28,7 +28,7 @@ def multi_label(x,y,labels):
     
 def identify_single_long_range(data):
 	
-    return data.apply(lambda x: x[0] if x[0] != 0 & x[1] == 0 else x[1] if x[0] == 0 and x[1] != 0 else 0,axis='columns').tolist()
+    return data.apply(lambda x: x[0] if x[0] > 0 and x[1] == 0 else x[1] if x[0] == 0 and x[1] > 0 else 0,axis='columns').tolist()
 
 def load_assignment_data(assignment):
 
