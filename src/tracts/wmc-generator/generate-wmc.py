@@ -21,13 +21,17 @@ def load_parcel_volume(parcel_volume_file,names):
 def build_tractmeasures_df(parcel_volume_dict,names_df,subjectID,outpath):
 
     tractmeasures_df = pd.DataFrame()
-    tractmeasures_df['structureID'] = names_df['tract_name'].unique().tolist()
+    tractmeasures_df['structureID'] = [ f for f in names_df['tract_name'].unique().tolist() if f != 'not-classified' ]
     tractmeasures_df['subjectID'] = [ subjectID for f in tractmeasures_df['structureID'] ]
-    tractmeasures_df['parcel'] = [ '.'.join(f.split('-')[-2:]) for f in tractmeasures_df['structureID'] ]
+    tractmeasures_df['parcel'] = [ f.split('_')[-1] if '_to_' not in str(f) else '_'.join(f.split('_')[-3:]).replace('_to','') for f in tractmeasures_df['structureID'] ]
+    tractmeasures_df['pair1'] = [ f.split('_')[0] if '_' in f else f for f in tractmeasures_df['parcel'] ]
+    tractmeasures_df['pair2'] = [ f.split('_')[1] if '_' in f else f for f in tractmeasures_df['parcel'] ]
     tractmeasures_df['count'] = [ len(names_df.loc[names_df['tract_name'] == f]) for f in tractmeasures_df['structureID'] ]
-    tractmeasures_df['parcel_density'] = tractmeasures_df['parcel'].map(parcel_volume_dict)
+    tractmeasures_df['pair1_density'] = tractmeasures_df['pair1'].map(parcel_volume_dict)
+    tractmeasures_df['pair2_density'] = tractmeasures_df['pair2'].map(parcel_volume_dict)
+    tractmeasures_df['parcel_density'] = np.mean(tractmeasures_df[['pair1_density','pair2_density']],axis=1)
     tractmeasures_df['density'] = tractmeasures_df['count'] / tractmeasures_df['parcel_density']
-    tractmeasures_df = tractmeasures_df.drop(columns=['parcel','parcel_density'])
+    tractmeasures_df = tractmeasures_df.drop(columns=['parcel','pair1','pair2'])
 
     if outpath:
         tractmeasures_df.to_csv(outpath+'/tractmeasures.csv',index=False)
@@ -72,7 +76,7 @@ def build_labels_dictionary(labels):
 
 def build_wmc_classification(df,track):
 
-    bundle_names = df['tract_name'].unique().tolist()
+    bundle_names = [ f for f in df['tract_name'].unique().tolist() if f != 'not-classified' ]
     names = np.array(bundle_names,dtype=object)
 
     # generate tracts
@@ -82,24 +86,25 @@ def build_wmc_classification(df,track):
     tractsfile = []
 
     for bnames in range(np.size(bundle_names)):
-        tract_ind = df.loc[df['tract_name'] == bundle_names[bnames]]['stream_index'].index.tolist()
-        streamline_index[tract_ind] = df.loc[df['tract_name'] == bundle_names[bnames]]['stream_index'].unique()[0]
-        streamlines = np.zeros([len(track.streamlines[tract_ind])],dtype=object)
-        for e in range(len(streamlines)):
-            streamlines[e] = np.transpose(track.streamlines[tract_ind][e]).round(2)
+        if bnames != 'not-classified':
+            tract_ind = df.loc[df['tract_name'] == bundle_names[bnames]]['stream_index'].index.tolist()
+            streamline_index[tract_ind] = df.loc[df['tract_name'] == bundle_names[bnames]]['stream_index'].unique()[0]
+            streamlines = np.zeros([len(track.streamlines[tract_ind])],dtype=object)
+            for e in range(len(streamlines)):
+                streamlines[e] = np.transpose(track.streamlines[tract_ind][e]).round(2)
 
-        color=colors[bnames]
-        count = len(streamlines)
+            color=colors[bnames]
+            count = len(streamlines)
 
-        jsonfibers = np.reshape(streamlines[:count], [count,1]).tolist()
-        for i in range(count):
-            jsonfibers[i] = [jsonfibers[i][0].tolist()]
+            jsonfibers = np.reshape(streamlines[:count], [count,1]).tolist()
+            for i in range(count):
+                jsonfibers[i] = [jsonfibers[i][0].tolist()]
 
-        with open ('wmc/tracts/'+str(df.loc[df['tract_name'] == bundle_names[bnames]]['stream_index'].unique()[0])+'.json', 'w') as outfile:
-            jsonfile = {'name': bundle_names[bnames], 'color': color, 'coords': jsonfibers}
-            json.dump(jsonfile, outfile)
+            with open ('wmc/tracts/'+str(df.loc[df['tract_name'] == bundle_names[bnames]]['stream_index'].unique()[0])+'.json', 'w') as outfile:
+                jsonfile = {'name': bundle_names[bnames], 'color': color, 'coords': jsonfibers}
+                json.dump(jsonfile, outfile)
 
-        tractsfile.append({"name": bundle_names[bnames], "color": color, "filename": str(df.loc[df['tract_name'] == bundle_names[bnames]]['stream_index'].unique()[0])+'.json'})
+            tractsfile.append({"name": bundle_names[bnames], "color": color, "filename": str(df.loc[df['tract_name'] == bundle_names[bnames]]['stream_index'].unique()[0])+'.json'})
 
     with open ('wmc/tracts/tracts.json', 'w') as outfile:
         json.dump(tractsfile, outfile, separators=(',', ': '), indent=4)
@@ -169,27 +174,33 @@ def main():
     # names_df['parcels'] =  [ f if int(f.split('_')[0])<int(f.split('_')[1]) else f.split('_')[1]+'_'+f.split('_')[0] for f in names_df['parcels'] ]
 
     # make individual pairs columns to make mapping easier
+    names_df['pair1'] = names_df['pair2'] = [ int(f.split('_')[0]) if '_' in f else int(f) if f != 'not-classified' else f for f in names_df['parcels'] ]
+    names_df['pair2'] = names_df['pair2'] = [ int(f.split('_')[1]) if '_' in f else int(f) if f != 'not-classified' else f for f in names_df['parcels'] ]
     # names_df['pair1'] = [ int(f.split('_')[0]) for f in names_df['parcels'] ]
     # names_df['pair2'] = [ int(f.split('_')[1]) for f in names_df['parcels'] ]
 
     # map varea parcels to each pair column
-    # names_df['pair1'] = names_df['pair1'].map(varea_dict)
-    # names_df['pair2'] = names_df['pair2'].map(varea_dict)
-    names_df['parcels'] = names_df['parcels'].map(varea_dict)
+    names_df['pair1'] = names_df['pair1'].map(varea_dict)
+    names_df['pair2'] = names_df['pair2'].map(varea_dict)
+    # names_df['parcels'] = names_df['parcels'].map(varea_dict)
+    # names_df['parcels'] = [ int(f) if f != 'not-classified' else f for f in names_df['parcels'] ]
 
     # map polar angle x eccentricity names to parcellation name
     names_df['parcellation'] = names_df['parcellation'].map(polarEcc_dict)
 
     # generate a name for the final wmc
-    names_df['tract_name'] = names_df.apply(lambda x: x['parcellation'].replace('.','-')+'_'+str(x['parcels']),axis=1)
+    # names_df['tract_name'] = names_df.apply(lambda x: x['parcellation'].replace('.','-')+'_'+str(x['parcels']),axis=1)
+    names_df['tract_name'] = [ names_df['parcels'][f] if names_df['parcels'][f] == 'not-classified' else names_df['parcellation'][f].replace('.','-')+'_'+names_df['pair1'][f]+'_to_'+names_df['pair2'][f] if '_' in names_df['parcels'][f] else names_df['parcellation'][f].replace('.','-')+'_'+names_df['pair1'][f] for f in range(len(names_df['parcellation'])) ]
 
     # identify unique names and build wmc dictionary so we can add index values
-    unique_parcels = names_df['tract_name'].unique().tolist()
-    unique_indices = [ f+1 for f in range(len(unique_parcels)) ]
+    unique_parcels = [ f for f in names_df['tract_name'].unique().tolist() if f != 'not-classified' ]
+    unique_indices = [ f+1 for f in range(len(unique_parcels))  ]
     wmc_dict = build_dictionary(unique_parcels,unique_indices)
 
     # set index
+    #NEED TO DO DEAL WITH UNCLASSIFIED STREAMLINES
     names_df['stream_index'] = names_df['tract_name'].map(wmc_dict)
+    names_df['stream_index'] = np.where(names_df['stream_index'].isna(), 0, names_df['stream_index'])
 
     # build final wmc structure
     bundle_names, streamline_index = build_wmc_classification(names_df,tractogram)
