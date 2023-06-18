@@ -90,7 +90,7 @@ def main():
     varea_labels = load_labels(varea_label_file)
     # varea_dict = build_labels_dictionary(varea_labels)
 
-    assignments = [ f for f in glob.glob('./*assignments.csv') ]
+    assignments = [ f for f in glob.glob('./assignments/*assignments.csv') ]
 
     outdir = './assignments'
 
