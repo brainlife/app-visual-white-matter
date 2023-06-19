@@ -174,8 +174,8 @@ def main():
     # names_df['parcels'] =  [ f if int(f.split('_')[0])<int(f.split('_')[1]) else f.split('_')[1]+'_'+f.split('_')[0] for f in names_df['parcels'] ]
 
     # make individual pairs columns to make mapping easier
-    names_df['pair1'] = names_df['pair2'] = [ int(f.split('_')[0]) if '_' in f else int(f) if f != 'not-classified' else f for f in names_df['parcels'] ]
-    names_df['pair2'] = names_df['pair2'] = [ int(f.split('_')[1]) if '_' in f else int(f) if f != 'not-classified' else f for f in names_df['parcels'] ]
+    names_df['pair1'] = [ int(f.split('_')[0]) if '_' in str(f) else int(f) if f != 'not-classified' else f for f in names_df['parcels'] ]
+    names_df['pair2'] = [ int(f.split('_')[1]) if '_' in str(f) else int(f) if f != 'not-classified' else f for f in names_df['parcels'] ]
     # names_df['pair1'] = [ int(f.split('_')[0]) for f in names_df['parcels'] ]
     # names_df['pair2'] = [ int(f.split('_')[1]) for f in names_df['parcels'] ]
 
@@ -190,7 +190,7 @@ def main():
 
     # generate a name for the final wmc
     # names_df['tract_name'] = names_df.apply(lambda x: x['parcellation'].replace('.','-')+'_'+str(x['parcels']),axis=1)
-    names_df['tract_name'] = [ names_df['parcels'][f] if names_df['parcels'][f] == 'not-classified' else names_df['parcellation'][f].replace('.','-')+'_'+names_df['pair1'][f]+'_to_'+names_df['pair2'][f] if '_' in names_df['parcels'][f] else names_df['parcellation'][f].replace('.','-')+'_'+names_df['pair1'][f] for f in range(len(names_df['parcellation'])) ]
+    names_df['tract_name'] = [ names_df['parcels'][f] if names_df['parcels'][f] == 'not-classified' else names_df['parcellation'][f].replace('.','-')+'_'+str(names_df['pair1'][f])+'_to_'+str(names_df['pair2'][f]) if '_' in str(names_df['parcels'][f]) else names_df['parcellation'][f].replace('.','-')+'_'+str(names_df['pair1'][f]) for f in range(len(names_df['parcellation'])) ]
 
     # identify unique names and build wmc dictionary so we can add index values
     unique_parcels = [ f for f in names_df['tract_name'].unique().tolist() if f != 'not-classified' ]
