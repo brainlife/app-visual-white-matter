@@ -190,7 +190,7 @@ def main():
 
     # generate a name for the final wmc
     # names_df['tract_name'] = names_df.apply(lambda x: x['parcellation'].replace('.','-')+'_'+str(x['parcels']),axis=1)
-    names_df['tract_name'] = [ names_df['parcels'][f] if names_df['parcels'][f] == 'not-classified' else names_df['parcellation'][f].replace('.','-')+'_'+names_df['pair1'][f]+'_to_'+names_df['pair2'][f] if '_' in names_df['parcels'][f] else names_df['parcellation'][f].replace('.','-')+'_'+names_df['pair1'][f] for f in range(len(names_df['parcellation'])) ]
+    names_df['tract_name'] = [ names_df['parcels'][f] if names_df['parcels'][f] == 'not-classified' else names_df['parcellation'][f].replace('.','-')+'_'+str(names_df['pair1'][f])+'_to_'+str(names_df['pair2'][f]) if '_' in str(names_df['parcels'][f]) else names_df['parcellation'][f].replace('.','-')+'_'+str(names_df['pair1'][f]) for f in range(len(names_df['parcellation'])) ]
 
     # identify unique names and build wmc dictionary so we can add index values
     unique_parcels = [ f for f in names_df['tract_name'].unique().tolist() if f != 'not-classified' ]
