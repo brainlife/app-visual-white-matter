@@ -174,8 +174,8 @@ def main():
     # names_df['parcels'] =  [ f if int(f.split('_')[0])<int(f.split('_')[1]) else f.split('_')[1]+'_'+f.split('_')[0] for f in names_df['parcels'] ]
 
     # make individual pairs columns to make mapping easier
-    names_df['pair1'] = names_df['pair2'] = [ int(f.split('_')[0]) if '_' in f else int(f) if f != 'not-classified' else f for f in names_df['parcels'] ]
-    names_df['pair2'] = names_df['pair2'] = [ int(f.split('_')[1]) if '_' in f else int(f) if f != 'not-classified' else f for f in names_df['parcels'] ]
+    names_df['pair1'] = [ int(f.split('_')[0]) if '_' in str(f) else int(f) if f != 'not-classified' else f for f in names_df['parcels'] ]
+    names_df['pair2'] = [ int(f.split('_')[1]) if '_' in str(f) else int(f) if f != 'not-classified' else f for f in names_df['parcels'] ]
     # names_df['pair1'] = [ int(f.split('_')[0]) for f in names_df['parcels'] ]
     # names_df['pair2'] = [ int(f.split('_')[1]) for f in names_df['parcels'] ]
 
