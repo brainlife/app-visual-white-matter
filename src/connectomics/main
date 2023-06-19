@@ -14,7 +14,6 @@ endpoints_assignments=`jq -r '.endpoints_assignment' config.json`
 . ./src/connectomics/cortexmap-generator-main.sh
 
 if [[ ${endpoints_assignments} == 'both_endpoints' ]]; then
-    
     ## scmrt connectivity
     . ./src/connectomics/scmrt-connectivity-main.sh 
 
@@ -29,9 +28,6 @@ if [[ ${endpoints_assignments} == 'both_endpoints' ]]; then
 
     ## create network statistics csvs
     . ./src/connectomics/netstats-generator-main.sh
-
-    ## clean up
-    mv *.nii.gz *.mif c_ras.mat *.txt *.pial ./metric ./raw/
 elif [[ ${endpoints_assignments} == 'single_endpoints' ]]; then
 
     # identify termination points in visual areas
@@ -41,5 +37,7 @@ elif [[ ${endpoints_assignments} == 'single_endpoints' ]]; then
     . ./src/tracts/wmc-generator-main.sh
 fi
 
+## clean up
 mv *.func.gii ./cortexmap/cortexmap/func/
 [ ! -d tracts ] && mkdir tracts tracts/tcks && mv *.tck ./tracts/tcks/
+mv *.nii.gz *.mif c_ras.mat *.txt *.pial ./metric ./raw/

@@ -100,11 +100,11 @@ def build_wmc_classification(df,track):
             for i in range(count):
                 jsonfibers[i] = [jsonfibers[i][0].tolist()]
 
-            with open ('wmc/tracts/'+str(df.loc[df['tract_name'] == bundle_names[bnames]]['stream_index'].unique()[0])+'.json', 'w') as outfile:
+            with open ('wmc/tracts/'+str(int(df.loc[df['tract_name'] == bundle_names[bnames]]['stream_index'].unique()[0]))+'.json', 'w') as outfile:
                 jsonfile = {'name': bundle_names[bnames], 'color': color, 'coords': jsonfibers}
                 json.dump(jsonfile, outfile)
 
-            tractsfile.append({"name": bundle_names[bnames], "color": color, "filename": str(df.loc[df['tract_name'] == bundle_names[bnames]]['stream_index'].unique()[0])+'.json'})
+            tractsfile.append({"name": bundle_names[bnames], "color": color, "filename": str(int(df.loc[df['tract_name'] == bundle_names[bnames]]['stream_index'].unique()[0]))+'.json'})
 
     with open ('wmc/tracts/tracts.json', 'w') as outfile:
         json.dump(tractsfile, outfile, separators=(',', ': '), indent=4)
