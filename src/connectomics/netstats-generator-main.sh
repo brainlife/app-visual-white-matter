@@ -1,4 +1,5 @@
 #!/bin/bash
+set -xe
 
 #nodes=1:ppn=2,walltime=1:00:00
 #visual-white-matter-connectomics-netstats-generator
