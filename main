@@ -3,6 +3,7 @@
 #PBS -N app-visual-white-matter
 #PBS -V
 
+set -xe
 
 analysis_pipeline=`jq -r '.analysis' config.json`
 
