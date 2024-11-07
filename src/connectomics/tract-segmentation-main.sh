@@ -1,4 +1,5 @@
 #!/bin/bash
+set -xe
 #nodes=1:ppn=1,walltime=1:30:00
 #visual-white-matter-connectomics-tract-segmentation
 
