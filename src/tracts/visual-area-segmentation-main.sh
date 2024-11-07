@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -xe
 #nodes=1:ppn=8,walltime=1:30:00,vmem=20gb
 #visual-white-matter-connectomics-scmrt-connectivity-main
 
