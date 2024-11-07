@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -xe
 #nodes=1:ppn=1,vmem=6gb,walltime=01:00:00
 #visual-white-matter-connectomics-network-measurements
 
