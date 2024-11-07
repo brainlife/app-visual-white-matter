@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -xe
 # top variables
 track=`jq -r '.track' config.json`
 # parc=`jq -r '.parcellations' config.json`
