@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -xe
 #nodes=1:ppn=16,vmem=28gb,walltime=1:00:00
 #visual-white-matter-connectomics-wmc-generator
 
