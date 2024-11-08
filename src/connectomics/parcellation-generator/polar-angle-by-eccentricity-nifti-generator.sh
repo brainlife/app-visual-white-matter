@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # output lines to log files and fail if error
-# set -x
-# set -e
+set -x
+set -e
 
 # parse inputs
 prfSurfacesDir=`jq -r '.prfSurfacesDir' config.json`
