@@ -1,4 +1,5 @@
 #!/bin/bash
+set -ex
 
 # top variables
 paAngle=`jq -r '.paAngle' config.json`
