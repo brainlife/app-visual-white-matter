@@ -8,12 +8,12 @@ set -xe
 
 # create assignments for each tract and parcel in parcellations
 if [ ! -f tmp.csv ]; then
-	time singularity exec -e -B /mnt:/mnt docker://brainlife/mrtrix3:3.0.0 ./src/connectomics/segment-tracts/initial-tract-segment.sh
+	time singularity exec -e docker://brainlife/mrtrix3:3.0.0 ./src/connectomics/segment-tracts/initial-tract-segment.sh
 fi
 
 if [ ! -f track/track.tck ]; then
-	time singularity exec -e -B /mnt:/mnt docker://brainlife/pyafq:1.0 ./src/connectomics/segment-tracts/cleanup-assignments.py
-	time singularity exec -e -B /mnt:/mnt docker://brainlife/mrtrix3:3.0.0 ./src/connectomics/segment-tracts/final-tract-segment.sh
+	time singularity exec -e docker://brainlife/pyafq:1.0 ./src/connectomics/segment-tracts/cleanup-assignments.py
+	time singularity exec -e docker://brainlife/mrtrix3:3.0.0 ./src/connectomics/segment-tracts/final-tract-segment.sh
 fi
 
 # # final check
