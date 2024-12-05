@@ -28,7 +28,7 @@ if [[ ${endpoints_assignments} == 'both_endpoints' ]]; then
     # . ./src/connectomics/wmc-generator-main.sh
 
     ## create network statistics csvs
-    # . ./src/connectomics/netstats-generator-main.sh
+    . ./src/connectomics/netstats-generator-main.sh
 # elif [[ ${endpoints_assignments} == 'single_endpoints' ]]; then
 
     # identify termination points in visual areas
