@@ -19,10 +19,10 @@ if [[ ${endpoints_assignments} == 'both_endpoints' ]]; then
     . ./src/connectomics/scmrt-connectivity-main.sh 
 
     ## network generator
-    # . ./src/connectomics/network-generator-main.sh
+    . ./src/connectomics/network-generator-main.sh
 
     ## network measurements
-    # . ./src/connectomics/network-measurements-main.sh
+    . ./src/connectomics/network-measurements-main.sh
 
     ## create wmc datatype
     # . ./src/connectomics/wmc-generator-main.sh
