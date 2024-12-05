@@ -36,7 +36,7 @@ if [[ ! ${assignment_forward_search} == "" ]]; then
 fi
 
 weights=""
-tracts=(*track*.tck)
+# tracts=(*track*.tck)
 
 #### convert data to mif ####
 # parcellation
