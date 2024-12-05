@@ -14,9 +14,9 @@ set -xe
 ## create cortexmap datatype
 # . ./src/connectomics/cortexmap-generator-main.sh
 
-# if [[ ${endpoints_assignments} == 'both_endpoints' ]]; then
+if [[ ${endpoints_assignments} == 'both_endpoints' ]]; then
     ## scmrt connectivity
-    # . ./src/connectomics/scmrt-connectivity-main.sh 
+    . ./src/connectomics/scmrt-connectivity-main.sh 
 
     ## network generator
     # . ./src/connectomics/network-generator-main.sh
