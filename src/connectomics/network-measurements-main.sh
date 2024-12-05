@@ -33,4 +33,4 @@ done
 # done
 
 # clean up file names
-singularity exec -e docker://filsilva/cxnetwork:0.2.0 ./src/connectomics/network-measurements/clean-up-file-names.py
+# singularity exec -e docker://filsilva/cxnetwork:0.2.0 ./src/connectomics/network-measurements/clean-up-file-names.py
