@@ -1,44 +1,44 @@
 #!/bin/bash
 set -xe
 
-endpoints_assignments=`jq -r '.endpoints_assignment' config.json`
+# endpoints_assignments=`jq -r '.endpoints_assignment' config.json`
 
 # connectomics: main file
 
 ## parcellation generator
-. ./src/connectomics/parcellation-generator-main.sh
+# . ./src/connectomics/parcellation-generator-main.sh
 
 ## segment tracts
 . ./src/connectomics/tract-segmentation-main.sh
 
 ## create cortexmap datatype
-. ./src/connectomics/cortexmap-generator-main.sh
+# . ./src/connectomics/cortexmap-generator-main.sh
 
-if [[ ${endpoints_assignments} == 'both_endpoints' ]]; then
+# if [[ ${endpoints_assignments} == 'both_endpoints' ]]; then
     ## scmrt connectivity
-    . ./src/connectomics/scmrt-connectivity-main.sh 
+    # . ./src/connectomics/scmrt-connectivity-main.sh 
 
     ## network generator
-    . ./src/connectomics/network-generator-main.sh
+    # . ./src/connectomics/network-generator-main.sh
 
     ## network measurements
-    . ./src/connectomics/network-measurements-main.sh
+    # . ./src/connectomics/network-measurements-main.sh
 
     ## create wmc datatype
-    . ./src/connectomics/wmc-generator-main.sh
+    # . ./src/connectomics/wmc-generator-main.sh
 
     ## create network statistics csvs
-    . ./src/connectomics/netstats-generator-main.sh
-elif [[ ${endpoints_assignments} == 'single_endpoints' ]]; then
+    # . ./src/connectomics/netstats-generator-main.sh
+# elif [[ ${endpoints_assignments} == 'single_endpoints' ]]; then
 
     # identify termination points in visual areas
-    . ./src/tracts/visual-area-segmentation-main.sh
+    # . ./src/tracts/visual-area-segmentation-main.sh
 
     # create wmc datatype
-    . ./src/tracts/wmc-generator-main.sh
+    # . ./src/tracts/wmc-generator-main.sh
 fi
 
 ## clean up
-mv *.func.gii ./cortexmap/cortexmap/func/
+# mv *.func.gii ./cortexmap/cortexmap/func/
 [ ! -d tracts ] && mkdir tracts tracts/tcks && mv *.tck ./tracts/tcks/
-mv *.nii.gz *.mif c_ras.mat *.txt *.pial ./metric ./raw/
+# mv *.nii.gz *.mif c_ras.mat *.txt *.pial ./metric ./raw/

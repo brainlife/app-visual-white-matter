@@ -12,7 +12,7 @@ if [ ! -f tmp.csv ]; then
 fi
 
 if [ ! -f track/track.tck ]; then
-	time singularity exec -e docker://brainlife/pyafq:1.0 ./src/connectomics/segment-tracts/cleanup-assignments.py
+	# time singularity exec -e docker://brainlife/pyafq:1.0 ./src/connectomics/segment-tracts/cleanup-assignments.py
 	time singularity exec -e docker://brainlife/mrtrix3:3.0.0 ./src/connectomics/segment-tracts/final-tract-segment.sh
 fi
 
